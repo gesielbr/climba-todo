@@ -1,0 +1,6 @@
+@ClimbaTodo.API_HostAddress = http://localhost:5197
+
+GET {{ClimbaTodo.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
