@@ -1,0 +1,16 @@
+# Vercel
+.vercel
+
+# Environment variables
+.env
+.env.*
+
+# .NET
+**/bin/
+**/obj/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo

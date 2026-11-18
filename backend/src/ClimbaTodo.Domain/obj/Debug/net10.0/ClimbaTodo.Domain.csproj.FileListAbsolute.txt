@@ -9,3 +9,4 @@ C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Domain\obj\Debug\net10.0\refint\ClimbaTodo.Domain.dll
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Domain\obj\Debug\net10.0\ClimbaTodo.Domain.pdb
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Domain\obj\Debug\net10.0\ref\ClimbaTodo.Domain.dll
+C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Domain\obj\Debug\net10.0\ClimbaTodo.Domain.sourcelink.json

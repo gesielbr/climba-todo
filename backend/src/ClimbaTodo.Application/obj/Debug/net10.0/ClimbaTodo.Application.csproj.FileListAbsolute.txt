@@ -13,3 +13,4 @@ C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Application\obj\Debug\net10.0\refint\ClimbaTodo.Application.dll
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Application\obj\Debug\net10.0\ClimbaTodo.Application.pdb
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Application\obj\Debug\net10.0\ref\ClimbaTodo.Application.dll
+C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Application\obj\Debug\net10.0\ClimbaTodo.Application.sourcelink.json

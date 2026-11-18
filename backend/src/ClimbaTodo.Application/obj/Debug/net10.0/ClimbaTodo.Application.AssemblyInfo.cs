@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ClimbaTodo.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b370cca8de390374535082c4edcd6e1a30b43f5")]
 [assembly: System.Reflection.AssemblyProductAttribute("ClimbaTodo.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClimbaTodo.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

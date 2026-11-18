@@ -63,3 +63,4 @@ C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Infrastructure\bin\Debug\net10.0\BuildHost-netcore\zh-Hant\System.CommandLine.resources.dll
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Infrastructure\bin\Debug\net10.0\ClimbaTodo.Infrastructure.runtimeconfig.json
 C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Infrastructure\obj\Debug\net10.0\ClimbaTodo.Infrastructure.genruntimeconfig.cache
+C:\Users\Home\OneDrive\Documents\Dev\Projetos\climba-todo\backend\src\ClimbaTodo.Infrastructure\obj\Debug\net10.0\ClimbaTodo.Infrastructure.sourcelink.json

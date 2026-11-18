@@ -10,6 +10,11 @@ var envPath = Path.GetFullPath(
     Path.Combine(builder.Environment.ContentRootPath, "..", "..", ".env")
 );
 
+if (File.Exists(envPath))
+{
+    DotNetEnv.Env.Load(envPath);
+}
+
 DotNetEnv.Env.Load(envPath);
 var connectionString = new Npgsql.NpgsqlConnectionStringBuilder
 {
@@ -55,4 +60,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
+app.Run($"http://0.0.0.0:{port}");

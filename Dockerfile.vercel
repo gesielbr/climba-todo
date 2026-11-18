@@ -1,0 +1,24 @@
+
+# Build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+
+WORKDIR /src
+
+COPY backend/src ./backend/src
+
+WORKDIR /src/backend
+
+RUN dotnet publish src/ClimbaTodo.API/ClimbaTodo.API.csproj -c Release -o /app/publish
+
+# Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
+ENV PORT=80
+
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "ClimbaTodo.API.dll"]
