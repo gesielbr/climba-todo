@@ -2,7 +2,7 @@
 
 **A RESTful API for task management built with .NET 10, ASP.NET Core, PostgreSQL and Clean Architecture.**
 
-[Português](#português) | [English](#english)
+Português | English
 
 ---
 
@@ -16,16 +16,16 @@ O projeto utiliza Clean Architecture para separar as responsabilidades da aplica
 
 A API permite criar, consultar, atualizar, concluir e excluir tarefas, utilizando PostgreSQL como banco de dados.
 
-**API em produção:** https://climba-todo.vercel.app/api/todos
+**API em produção:** https://climba-todo-one.vercel.app/api/todos
 
 **Repositório:** https://github.com/gesielbr/climba-todo
 
 ## Funcionalidades
 
-- Criar tarefas com título e descrição opcional.
+- Criar tarefas com título, descrição opcional e data prevista.
 - Listar todas as tarefas.
 - Consultar uma tarefa pelo identificador.
-- Atualizar título e descrição.
+- Atualizar título, descrição, data prevista e status.
 - Marcar tarefas como concluídas.
 - Excluir tarefas.
 - Validar regras de negócio na camada Domain.
@@ -46,26 +46,24 @@ A API permite criar, consultar, atualizar, concluir e excluir tarefas, utilizand
 
 O projeto segue os princípios da Clean Architecture, organizado em quatro camadas:
 
-```text
-backend/
-└── src/
-    ├── ClimbaTodo.API/
-    │   └── Controllers/
-    │
-    ├── ClimbaTodo.Application/
-    │   ├── DTOs/
-    │   ├── Interfaces/
-    │   └── Services/
-    │
-    ├── ClimbaTodo.Domain/
-    │   └── Entities/
-    │
-    └── ClimbaTodo.Infrastructure/
-        ├── Persistence/
-        │   ├── Configurations/
-        │   └── Migrations/
-        └── Repositories/
-```
+    backend/
+    └── src/
+        ├── ClimbaTodo.API/
+        │   └── Controllers/
+        │
+        ├── ClimbaTodo.Application/
+        │   ├── DTOs/
+        │   ├── Interfaces/
+        │   └── Services/
+        │
+        ├── ClimbaTodo.Domain/
+        │   └── Entities/
+        │
+        └── ClimbaTodo.Infrastructure/
+            ├── Persistence/
+            │   ├── Configurations/
+            │   └── Migrations/
+            └── Repositories/
 
 ### Responsabilidades das camadas
 
@@ -95,34 +93,34 @@ backend/
 
 ### Fluxo simplificado
 
-```mermaid
-flowchart TD
-    A[HTTP Request] --> B[API]
-    B --> C[Application]
-    C --> D[Domain]
-    C --> E[Infrastructure]
-    E --> F[Entity Framework Core]
-    F --> G[(PostgreSQL)]
-```
+    flowchart TD
+        A[HTTP Request] --> B[API]
+        B --> C[Application]
+        C --> D[Domain]
+        C --> E[Infrastructure]
+        E --> F[Entity Framework Core]
+        F --> G[(PostgreSQL)]
 
 ## Regras de negócio
 
 A entidade `Todo` possui as seguintes propriedades:
 
-| Propriedade | Tipo      | Descrição                  |
-| ----------- | --------- | -------------------------- |
-| Id          | Guid      | Identificador único        |
-| Title       | string    | Título da tarefa           |
-| Description | string?   | Descrição opcional         |
-| IsCompleted | bool      | Status de conclusão        |
-| CreatedAt   | DateTime  | Data de criação            |
-| UpdatedAt   | DateTime? | Data da última atualização |
+| Propriedade | Tipo | Descrição |
+|-------------|------|-----------|
+| Id | Guid | Identificador único |
+| Title | string | Título da tarefa |
+| Description | string? | Descrição opcional |
+| DueDate | DateTime? | Data prevista (opcional) |
+| IsCompleted | bool | Status de conclusão |
+| CreatedAt | DateTime | Data de criação |
+| UpdatedAt | DateTime? | Data da última atualização |
 
 Validações implementadas:
 
 - O título é obrigatório.
 - O título aceita até 150 caracteres.
 - A descrição aceita até 1.000 caracteres.
+- A data prevista não pode ser no passado.
 - Novas tarefas são criadas como não concluídas.
 - As datas são registradas em UTC.
 - Uma tarefa já concluída não sofre alteração ao receber novamente a operação de conclusão.
@@ -131,14 +129,14 @@ Validações implementadas:
 
 Rota-base: `/api/todos`
 
-| Método | Endpoint                   | Descrição              |
-| ------ | -------------------------- | ---------------------- |
-| GET    | `/api/todos`               | Lista todas as tarefas |
-| POST   | `/api/todos`               | Cria uma tarefa        |
-| GET    | `/api/todos/{id}`          | Consulta uma tarefa    |
-| PUT    | `/api/todos/{id}`          | Atualiza uma tarefa    |
-| PATCH  | `/api/todos/{id}/complete` | Conclui uma tarefa     |
-| DELETE | `/api/todos/{id}`          | Exclui uma tarefa      |
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/todos` | Lista todas as tarefas |
+| POST | `/api/todos` | Cria uma tarefa |
+| GET | `/api/todos/{id}` | Consulta uma tarefa |
+| PUT | `/api/todos/{id}` | Atualiza uma tarefa |
+| PATCH | `/api/todos/{id}/complete` | Conclui uma tarefa |
+| DELETE | `/api/todos/{id}` | Exclui uma tarefa |
 
 ### Exemplos de requisição
 
@@ -146,23 +144,22 @@ Rota-base: `/api/todos`
 
 `POST /api/todos`
 
-```json
-{
-  "title": "Estudar Clean Architecture",
-  "description": "Revisar responsabilidades das camadas"
-}
-```
+    {
+      "title": "Estudar Clean Architecture",
+      "description": "Revisar responsabilidades das camadas",
+      "dueDate": "2026-12-01T00:00:00Z"
+    }
 
 **Atualizar uma tarefa — PUT**
 
 `PUT /api/todos/{id}`
 
-```json
-{
-  "title": "Estudar .NET 10",
-  "description": "Praticar desenvolvimento de APIs"
-}
-```
+    {
+      "title": "Estudar .NET 10",
+      "description": "Praticar desenvolvimento de APIs",
+      "dueDate": "2026-12-01T00:00:00Z",
+      "isCompleted": false
+    }
 
 **Concluir uma tarefa — PATCH**
 
@@ -180,22 +177,18 @@ Não é necessário enviar um corpo JSON.
 
 ### 1. Clonar o repositório
 
-```bash
-git clone https://github.com/gesielbr/climba-todo.git
-cd climba-todo/backend
-```
+    git clone https://github.com/gesielbr/climba-todo.git
+    cd climba-todo/backend
 
 ### 2. Configurar as variáveis de ambiente
 
 Crie um arquivo `.env` na pasta `backend`, com as seguintes variáveis:
 
-```env
-PGHOST=seu_host
-PGDATABASE=seu_banco
-PGUSER=seu_usuario
-PGPASSWORD=sua_senha
-PORT=8080
-```
+    PGHOST=seu_host
+    PGDATABASE=seu_banco
+    PGUSER=seu_usuario
+    PGPASSWORD=sua_senha
+    PORT=8080
 
 Utilize um banco PostgreSQL compatível com os requisitos de conexão TLS e Channel Binding configurados na aplicação.
 
@@ -205,9 +198,7 @@ Utilize um banco PostgreSQL compatível com os requisitos de conexão TLS e Chan
 
 Na pasta `backend`, execute:
 
-```bash
-dotnet run --project src/ClimbaTodo.API/ClimbaTodo.API.csproj
-```
+    dotnet run --project src/ClimbaTodo.API/ClimbaTodo.API.csproj
 
 A API utilizará a porta configurada na variável `PORT`, com valor padrão `8080`.
 
@@ -246,16 +237,16 @@ The project follows Clean Architecture principles to separate application respon
 
 The API supports creating, retrieving, updating, completing, and deleting tasks, using PostgreSQL as its database.
 
-**Production API:** https://climba-todo.vercel.app/api/todos
+**Production API:** https://climba-todo-one.vercel.app/api/todos
 
 **Repository:** https://github.com/gesielbr/climba-todo
 
 ## Features
 
-- Create tasks with a title and optional description.
+- Create tasks with a title, optional description, and due date.
 - Retrieve all tasks.
 - Retrieve a task by its identifier.
-- Update task titles and descriptions.
+- Update task titles, descriptions, due dates, and status.
 - Mark tasks as completed.
 - Delete tasks.
 - Enforce business rules in the Domain layer.
@@ -302,34 +293,34 @@ The project follows Clean Architecture principles and is organized into four lay
 
 ### Simplified request flow
 
-```mermaid
-flowchart TD
-    A[HTTP Request] --> B[API]
-    B --> C[Application]
-    C --> D[Domain]
-    C --> E[Infrastructure]
-    E --> F[Entity Framework Core]
-    F --> G[(PostgreSQL)]
-```
+    flowchart TD
+        A[HTTP Request] --> B[API]
+        B --> C[Application]
+        C --> D[Domain]
+        C --> E[Infrastructure]
+        E --> F[Entity Framework Core]
+        F --> G[(PostgreSQL)]
 
 ## Business rules
 
 The `Todo` entity contains the following properties:
 
-| Property    | Type      | Description           |
-| ----------- | --------- | --------------------- |
-| Id          | Guid      | Unique identifier     |
-| Title       | string    | Task title            |
-| Description | string?   | Optional description  |
-| IsCompleted | bool      | Completion status     |
-| CreatedAt   | DateTime  | Creation timestamp    |
-| UpdatedAt   | DateTime? | Last update timestamp |
+| Property | Type | Description |
+|----------|------|-------------|
+| Id | Guid | Unique identifier |
+| Title | string | Task title |
+| Description | string? | Optional description |
+| DueDate | DateTime? | Optional due date |
+| IsCompleted | bool | Completion status |
+| CreatedAt | DateTime | Creation timestamp |
+| UpdatedAt | DateTime? | Last update timestamp |
 
 Implemented validations:
 
 - The title is required.
 - The title accepts up to 150 characters.
 - The description accepts up to 1,000 characters.
+- The due date cannot be in the past.
 - New tasks are created as incomplete.
 - Timestamps are stored in UTC.
 - Completing an already completed task does not change its state.
@@ -338,14 +329,14 @@ Implemented validations:
 
 Base route: `/api/todos`
 
-| Method | Endpoint                   | Description        |
-| ------ | -------------------------- | ------------------ |
-| GET    | `/api/todos`               | Retrieve all tasks |
-| POST   | `/api/todos`               | Create a task      |
-| GET    | `/api/todos/{id}`          | Retrieve a task    |
-| PUT    | `/api/todos/{id}`          | Update a task      |
-| PATCH  | `/api/todos/{id}/complete` | Complete a task    |
-| DELETE | `/api/todos/{id}`          | Delete a task      |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/todos` | Retrieve all tasks |
+| POST | `/api/todos` | Create a task |
+| GET | `/api/todos/{id}` | Retrieve a task |
+| PUT | `/api/todos/{id}` | Update a task |
+| PATCH | `/api/todos/{id}/complete` | Complete a task |
+| DELETE | `/api/todos/{id}` | Delete a task |
 
 ### Request examples
 
@@ -353,23 +344,22 @@ Base route: `/api/todos`
 
 `POST /api/todos`
 
-```json
-{
-  "title": "Study Clean Architecture",
-  "description": "Review layer responsibilities"
-}
-```
+    {
+      "title": "Study Clean Architecture",
+      "description": "Review layer responsibilities",
+      "dueDate": "2026-12-01T00:00:00Z"
+    }
 
 **Update a task — PUT**
 
 `PUT /api/todos/{id}`
 
-```json
-{
-  "title": "Study .NET 10",
-  "description": "Practice API development"
-}
-```
+    {
+      "title": "Study .NET 10",
+      "description": "Practice API development",
+      "dueDate": "2026-12-01T00:00:00Z",
+      "isCompleted": false
+    }
 
 **Complete a task — PATCH**
 
@@ -387,22 +377,18 @@ No JSON request body is required.
 
 ### 1. Clone the repository
 
-```bash
-git clone https://github.com/gesielbr/climba-todo.git
-cd climba-todo/backend
-```
+    git clone https://github.com/gesielbr/climba-todo.git
+    cd climba-todo/backend
 
 ### 2. Configure environment variables
 
 Create a `.env` file inside the `backend` directory:
 
-```env
-PGHOST=your_host
-PGDATABASE=your_database
-PGUSER=your_username
-PGPASSWORD=your_password
-PORT=8080
-```
+    PGHOST=your_host
+    PGDATABASE=your_database
+    PGUSER=your_username
+    PGPASSWORD=your_password
+    PORT=8080
 
 Use a PostgreSQL database compatible with the TLS and Channel Binding requirements configured by the application.
 
@@ -412,9 +398,7 @@ Use a PostgreSQL database compatible with the TLS and Channel Binding requiremen
 
 From the `backend` directory, execute:
 
-```bash
-dotnet run --project src/ClimbaTodo.API/ClimbaTodo.API.csproj
-```
+    dotnet run --project src/ClimbaTodo.API/ClimbaTodo.API.csproj
 
 The API uses the port defined by the `PORT` environment variable, defaulting to `8080`.
 
