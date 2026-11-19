@@ -42,12 +42,18 @@ public class TodosController : ControllerBase
         return Ok(todo);
     }
 
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, UpdateTodoDto dto)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(Guid id, UpdateTodoDto dto)
     {
-        await _todoService.UpdateAsync(id, dto.Title, dto.Description);
-
-        return Ok("Tarefa atualizada com sucesso.");
+        try
+        {
+            await _todoService.UpdateAsync(id, dto.Title, dto.Description, dto.DueDate, dto.IsCompleted);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound(new { message = "Tarefa não encontrada." });
+        }
     }
 
     [HttpDelete("{id:guid}")]

@@ -25,23 +25,19 @@ public class TodoService
 
     public async Task CreateAsync(CreateTodoDto dto)
     {
-        var todo = new Todo(dto.Title, dto.Description);
-
+        var todo = new Todo(dto.Title, dto.Description, dto.DueDate);
         await _todoRepository.AddAsync(todo);
     }
 
-    public async Task UpdateAsync(Guid id, string title, string? description)
+    public async Task UpdateAsync(Guid id, string title, string? description, DateTime? dueDate, bool? isCompleted)
     {
         var todo = await _todoRepository.GetByIdAsync(id);
-
         if (todo is null)
             throw new KeyNotFoundException("Tarefa não encontrada.");
 
-        todo.Update(title, description);
-
+        todo.Update(title, description, dueDate, isCompleted);
         await _todoRepository.UpdateAsync(todo);
     }
-
     public async Task DeleteAsync(Guid id)
     {
         var todo = await _todoRepository.GetByIdAsync(id);
