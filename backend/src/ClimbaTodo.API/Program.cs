@@ -14,10 +14,11 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins(
-                    "http://localhost:4200",
-                    "http://localhost:58365",
-                    "https://limba-todo-frontend.vercel.app"
-                  )
+    "http://localhost:4200",
+    "http://localhost:58365",
+    "https://limba-todo-frontend.vercel.app",
+    "https://climba-todo-frontend.vercel.app"
+)
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
